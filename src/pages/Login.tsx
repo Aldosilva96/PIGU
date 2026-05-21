@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { supabase } from '../lib/supabase'
+import Logo from '../components/Logo'
 
 export default function Login() {
   const [email, setEmail] = useState('')
@@ -33,8 +34,11 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
       <div className="bg-gray-900 rounded-2xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-orange-500 mb-2">Pigu</h1>
-        <p className="text-gray-400 mb-6">Plataforma de reportes urbanos</p>
+        <div className="flex flex-col items-center mb-6">
+          <Logo size={70} />
+          <h1 className="text-3xl font-bold text-orange-500 mt-3">Pigu</h1>
+          <p className="text-gray-400 text-sm">Plataforma de reportes urbanos</p>
+        </div>
 
         {isRegister && (
           <>
