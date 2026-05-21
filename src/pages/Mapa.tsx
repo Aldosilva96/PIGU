@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabase'
 import 'leaflet/dist/leaflet.css'
 import L from 'leaflet'
 
-// Fix para los iconos de leaflet en Vite
 delete (L.Icon.Default.prototype as any)._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -50,13 +49,12 @@ export default function Mapa() {
   }
 
   return (
-    <div className="flex flex-col" style={{ height: '100vh' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
       <div className="p-4 bg-gray-950">
         <h2 className="text-2xl font-bold text-orange-500">Mapa de reportes</h2>
         <p className="text-gray-400 text-sm">{reports.length} reporte(s) activos</p>
       </div>
-
-      <div className="flex-1">
+      <div style={{ flex: 1 }}>
         <MapContainer
           center={[-34.9011, -56.1645]}
           zoom={13}
@@ -67,10 +65,7 @@ export default function Mapa() {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
           {reports.map(report => (
-            <Marker
-              key={report.id}
-              position={[report.latitude, report.longitude]}
-            >
+            <Marker key={report.id} position={[report.latitude, report.longitude]}>
               <Popup>
                 <div className="text-sm">
                   <img src={report.photo_url} className="w-40 h-28 object-cover rounded mb-2" />

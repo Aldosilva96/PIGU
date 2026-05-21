@@ -6,6 +6,7 @@ import MisReportes from './pages/MisReportes'
 import Admin from './pages/Admin'
 import Mapa from './pages/Mapa'
 import Perfil from './pages/Perfil'
+import SplashScreen from './components/SplashScreen'
 
 type Page = 'home' | 'nuevo-reporte' | 'mis-reportes' | 'admin' | 'perfil'
 
@@ -13,6 +14,12 @@ function App() {
   const [session, setSession] = useState<any>(null)
   const [profile, setProfile] = useState<any>(null)
   const [page, setPage] = useState<Page>('home')
+  const [splash, setSplash] = useState(true)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setSplash(false), 2500)
+    return () => clearTimeout(timer)
+  }, [])
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -34,6 +41,7 @@ function App() {
     if (data) setProfile(data)
   }
 
+  if (splash) return <SplashScreen />
   if (!session) return <Login />
 
   return (
@@ -47,11 +55,21 @@ function App() {
           <Perfil
             profile={profile}
             session={session}
-          onAdmin={() => setPage('admin')}
-          onMisReportes={() => setPage('mis-reportes')}  
+            onAdmin={() => setPage('admin')}
+            onMisReportes={() => setPage('mis-reportes')}
           />
         )}
       </div>
+
+      {page === 'home' && (
+        <button
+          onClick={() => setPage('nuevo-reporte')}
+          style={{ position: 'fixed', bottom: '90px', right: '24px', zIndex: 99999 }}
+          className="bg-orange-500 hover:bg-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center text-3xl shadow-xl transition"
+        >
+          📸
+        </button>
+      )}
 
       <div className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 flex">
         <button
